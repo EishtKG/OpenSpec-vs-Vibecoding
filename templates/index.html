@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>Todo List</h1>
+      <p class="subtitle">Add tasks, check them off, stay organized.</p>
+    </header>
+
+    <form class="add-form" action="{{ url_for('add') }}" method="post">
+      <input
+        type="text"
+        name="text"
+        placeholder="What needs to be done?"
+        autocomplete="off"
+        autofocus
+        required
+      >
+      <button type="submit">Add</button>
+    </form>
+
+    {% set active = todos | selectattr('done', 'equalto', 0) | list %}
+    {% set done = todos | selectattr('done', 'equalto', 1) | list %}
+
+    {% if todos %}
+    <section class="stats">
+      <span>{{ active | length }} active</span>
+      <span>{{ done | length }} completed</span>
+      {% if done | length > 0 %}
+      <form class="inline-form" action="{{ url_for('clear_completed') }}" method="post">
+        <button type="submit" class="link-btn">Clear completed</button>
+      </form>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    <ul class="todo-list">
+      {% for todo in todos %}
+      <li class="todo-item {% if todo.done %}done{% endif %}">
+        <form class="inline-form" action="{{ url_for('toggle', todo_id=todo.id) }}" method="post">
+          <button type="submit" class="check-btn" aria-label="Toggle complete">
+            <span class="check-mark"></span>
+          </button>
+        </form>
+        <span class="todo-text">{{ todo.text }}</span>
+        <form class="inline-form" action="{{ url_for('delete', todo_id=todo.id) }}" method="post">
+          <button type="submit" class="delete-btn" aria-label="Delete">×</button>
+        </form>
+      </li>
+      {% else %}
+      <li class="empty-state">No todos yet. Add one above!</li>
+      {% endfor %}
+    </ul>
+  </main>
+</body>
+</html>
