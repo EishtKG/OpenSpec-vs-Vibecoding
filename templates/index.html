@@ -5,11 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo List</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    (function () {
+      if (localStorage.getItem("theme") === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
 </head>
 <body>
   <main class="app">
     <header class="header">
-      <h1>Todo List</h1>
+      <div class="header-top">
+        <h1>Todo List</h1>
+        <button
+          type="button"
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark mode"
+          title="Toggle dark mode"
+        >
+          <span class="theme-icon theme-icon-dark" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-light" aria-hidden="true">☾</span>
+        </button>
+      </div>
       <p class="subtitle">Add tasks, check them off, stay organized.</p>
     </header>
 
@@ -58,5 +77,6 @@
       {% endfor %}
     </ul>
   </main>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
 </body>
 </html>

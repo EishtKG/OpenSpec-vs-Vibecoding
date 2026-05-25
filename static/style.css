@@ -12,8 +12,18 @@
   --muted: #8b9cb3;
   --accent: #3b82f6;
   --accent-hover: #2563eb;
+  --accent-focus: rgba(59, 130, 246, 0.25);
   --done: #22c55e;
   --danger: #ef4444;
+}
+
+[data-theme="light"] {
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --border: #cbd5e1;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent-focus: rgba(59, 130, 246, 0.2);
 }
 
 body {
@@ -31,11 +41,52 @@ body {
   padding: 3rem 1.25rem 4rem;
 }
 
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
 .header h1 {
-  margin: 0 0 0.25rem;
+  margin: 0;
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.theme-toggle {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.theme-icon-light {
+  display: none;
+}
+
+[data-theme="light"] .theme-icon-dark {
+  display: none;
+}
+
+[data-theme="light"] .theme-icon-light {
+  display: inline;
 }
 
 .subtitle {
@@ -63,7 +114,7 @@ body {
 .add-form input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 0 3px var(--accent-focus);
 }
 
 .add-form button {
