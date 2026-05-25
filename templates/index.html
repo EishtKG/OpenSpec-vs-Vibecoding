@@ -41,6 +41,13 @@
         autofocus
         required
       >
+      <input
+        type="date"
+        name="due_date"
+        class="due-date-input"
+        aria-label="Due date (optional)"
+        title="Due date (optional)"
+      >
       <button type="submit">Add</button>
     </form>
 
@@ -61,13 +68,18 @@
 
     <ul class="todo-list">
       {% for todo in todos %}
-      <li class="todo-item {% if todo.done %}done{% endif %}">
+      <li class="todo-item {% if todo.done %}done{% endif %}{% if todo.is_overdue %} overdue{% endif %}">
         <form class="inline-form" action="{{ url_for('toggle', todo_id=todo.id) }}" method="post">
           <button type="submit" class="check-btn" aria-label="Toggle complete">
             <span class="check-mark"></span>
           </button>
         </form>
-        <span class="todo-text">{{ todo.text }}</span>
+        <div class="todo-body">
+          <span class="todo-text">{{ todo.text }}</span>
+          {% if todo.due_date_display %}
+          <time class="due-date" datetime="{{ todo.due_date }}">{{ todo.due_date_display }}</time>
+          {% endif %}
+        </div>
         <form class="inline-form" action="{{ url_for('delete', todo_id=todo.id) }}" method="post">
           <button type="submit" class="delete-btn" aria-label="Delete">×</button>
         </form>
